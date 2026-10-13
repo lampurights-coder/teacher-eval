@@ -1,4 +1,4 @@
-![Logo](taecher.png)
+![Logo](logo.png)
 # teacher-eval
 
 asrparser BY EMBED. Upload an English class, keep the audio and the diarized transcript, then review the teacher once and reopen that same review later.
