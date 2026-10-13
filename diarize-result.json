@@ -1,0 +1,863 @@
+{
+  "text": "Are you a teacher here? Um, no I'm not. I'm actually a graduate student. Oh right. Uh my name's Martin. Hi. Hi, how are you? I'm Tom. Ah. Nice to meet you, Tom. Where are you from, Martin? I'm from Seattle, Washington in uh the U_S_ Is that in the north-east, north-west? Ah, northwest. North-west. Northwest. Right n right near Canada. Is it cold up there? Uh it's wetter than it is cold.\nHow long have you been in Japan? I've been in Japan for about six months. And what are you studying? I'm studying uh international cooperation and uh economic economics and nationalism in northeast Asia. Is that a master's level or a PhD? Ah, master's level. Right. How long is the course? Uh it's about two years, so I'll be done in another year. So you're fairly settled here then. Um by and large, yes.\nYeah. Wow, that's How excellent. about you? I'm from the UK. I actually I'm a teacher here. Oh, okay. I'm not studying. How long have you been a teacher here? Just this started this semester, about two months ago. Oh, two mont uh very very recent. That's right. How do you find Japan? Ah, it's brilliant. I really like it. Have you been in Japan a long time or\nI was in Japan four Oh before. years ago, Ah. I was here for two years. Okay. I've been wor trying to come back since Ah. I left. Yeah. I find Japan very very very nice. Uh the environment is very nice. You I mean this is quite a small city, Yeah. you like this rule? Um I lived in Seoul for about three and a half, four years and it's nice to have a a smaller cleaner city.\nCity that's a little more laid -back not so rush rush So tell me about your day. What do you do in a day?\nGenerally uh pretty standard you know come up to campus uh in the morning, study, have class and then um read a little bit, go to the library and then go back home and go off to work in Oita. You work? M yeah, just in Oita for uh one or two days a week. Okay. Yeah. Oh that sounds like a nice schedule. Yeah, how about you? You're here for how long a day? Oh, I get the first bus up in the morning. It gets me here about eight o'clock.\nClock. Um I have three classes in a day, so it's only what four and a half hours of teaching. Mm-hmm. The rest of the time is preparing the lessons, marking the homework, surfing the internet, Ah. using the library as well. Ah. And then I head home about six o'clock. Oh. Doesn't sound yeah, a little busier, but It's quite a relaxing schedule. Mm-hmm. Mm-hmm.\nOh, that sounds Not all right. too intense. And getting home at six or seven, I've still got time for a swim or to cook something in the evening. Ah, do you go to the the club down there or The public swimming pool, Public next to swimming pool. the park. Ah, okay. Have you been there? No, I haven't, but I've I've I've walked by that. Do you live in that part of Beirut? I live in Kamagawa. Right, uh-huh. So So it's a quite bit of far a long away way. from everywhere else. Yeah. But it's nice and very very quiet.\nSo as That seems like that's important to you. I get older it becomes more important.",
+  "usage": {
+    "type": "tokens",
+    "input_tokens": 2485,
+    "output_tokens": 6068,
+    "total_tokens": 8553,
+    "input_token_details": {
+      "audio_tokens": 2301,
+      "text_tokens": 184
+    }
+  },
+  "task": "transcribe",
+  "duration": 199.653875,
+  "segments": [
+    {
+      "id": "seg_0",
+      "end": 4.348,
+      "speaker": "A",
+      "start": 3.348,
+      "text": " Are you a teacher here?",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_1",
+      "end": 6.698,
+      "speaker": "B",
+      "start": 4.698,
+      "text": " Um, no I'm not. I'm actually a graduate student.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_2",
+      "end": 7.248,
+      "speaker": "A",
+      "start": 6.698,
+      "text": " Oh right.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_3",
+      "end": 8.798,
+      "speaker": "B",
+      "start": 7.998,
+      "text": " Uh my name's Martin.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_4",
+      "end": 9.597999999999999,
+      "speaker": "A",
+      "start": 9.298,
+      "text": " Hi.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_5",
+      "end": 10.597999999999999,
+      "speaker": "B",
+      "start": 9.948,
+      "text": " Hi, how are you?",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_6",
+      "end": 11.498000000000001,
+      "speaker": "A",
+      "start": 10.898,
+      "text": " I'm Tom.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_7",
+      "end": 12.548000000000002,
+      "speaker": "B",
+      "start": 11.498000000000001,
+      "text": " Ah. Nice to meet you, Tom.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_8",
+      "end": 13.498000000000001,
+      "speaker": "A",
+      "start": 12.548000000000002,
+      "text": " Where are you from, Martin?",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_9",
+      "end": 16.548000000000002,
+      "speaker": "B",
+      "start": 13.498000000000001,
+      "text": " I'm from Seattle, Washington in uh the U_S_",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_10",
+      "end": 18.998,
+      "speaker": "A",
+      "start": 17.298000000000002,
+      "text": " Is that in the north-east, north-west?",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_11",
+      "end": 19.548000000000002,
+      "speaker": "B",
+      "start": 18.998,
+      "text": " Ah, northwest.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_12",
+      "end": 20.148000000000003,
+      "speaker": "A",
+      "start": 19.548000000000002,
+      "text": " North-west.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_13",
+      "end": 21.648000000000003,
+      "speaker": "B",
+      "start": 20.148000000000003,
+      "text": " Northwest. Right n right near Canada.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_14",
+      "end": 22.848000000000003,
+      "speaker": "A",
+      "start": 21.648000000000003,
+      "text": " Is it cold up there?",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_15",
+      "end": 24.898000000000003,
+      "speaker": "B",
+      "start": 22.848000000000003,
+      "text": " Uh it's wetter than it is cold.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_16",
+      "end": 26.2,
+      "speaker": "A",
+      "start": 25.5,
+      "text": " How long have you been in",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_17",
+      "end": 29.5,
+      "speaker": "B",
+      "start": 26.2,
+      "text": " Japan? I've been in Japan for about six months.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_18",
+      "end": 30.75,
+      "speaker": "A",
+      "start": 29.9,
+      "text": " And what are you studying?",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_19",
+      "end": 38.8,
+      "speaker": "B",
+      "start": 31.1,
+      "text": " I'm studying uh international cooperation and uh economic economics and nationalism in northeast Asia.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_20",
+      "end": 41.2,
+      "speaker": "A",
+      "start": 38.8,
+      "text": " Is that a master's level or a PhD?",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_21",
+      "end": 42.25,
+      "speaker": "B",
+      "start": 41.2,
+      "text": " Ah, master's level.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_22",
+      "end": 43.95,
+      "speaker": "A",
+      "start": 42.25,
+      "text": " Right. How long is the course?",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_23",
+      "end": 47.7,
+      "speaker": "B",
+      "start": 43.95,
+      "text": " Uh it's about two years, so I'll be done in another year.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_24",
+      "end": 49.25,
+      "speaker": "A",
+      "start": 47.7,
+      "text": " So you're fairly settled here then.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_25",
+      "end": 51.2,
+      "speaker": "B",
+      "start": 49.25,
+      "text": " Um by and large, yes.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_26",
+      "end": 55.461999999999996,
+      "speaker": "A",
+      "start": 55.412,
+      "text": " Yeah.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_27",
+      "end": 55.812,
+      "speaker": "B",
+      "start": 55.461999999999996,
+      "text": " Wow, that's",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_28",
+      "end": 55.912,
+      "speaker": "A",
+      "start": 55.812,
+      "text": " How",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_29",
+      "end": 56.012,
+      "speaker": "B",
+      "start": 55.912,
+      "text": " excellent.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_30",
+      "end": 59.112,
+      "speaker": "A",
+      "start": 56.012,
+      "text": " about you? I'm from the UK. I actually I'm a teacher here.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_31",
+      "end": 59.512,
+      "speaker": "B",
+      "start": 59.112,
+      "text": " Oh, okay.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_32",
+      "end": 60.312,
+      "speaker": "A",
+      "start": 59.512,
+      "text": " I'm not studying.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_33",
+      "end": 61.862,
+      "speaker": "B",
+      "start": 60.312,
+      "text": " How long have you been a teacher here?",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_34",
+      "end": 64.912,
+      "speaker": "A",
+      "start": 61.862,
+      "text": " Just this started this semester, about two months ago.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_35",
+      "end": 66.362,
+      "speaker": "B",
+      "start": 64.912,
+      "text": " Oh, two mont uh very very recent.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_36",
+      "end": 66.862,
+      "speaker": "A",
+      "start": 66.362,
+      "text": " That's right.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_37",
+      "end": 67.962,
+      "speaker": "B",
+      "start": 66.862,
+      "text": " How do you find Japan?",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_38",
+      "end": 69.812,
+      "speaker": "A",
+      "start": 68.212,
+      "text": " Ah, it's brilliant. I really like it.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_39",
+      "end": 71.612,
+      "speaker": "B",
+      "start": 69.812,
+      "text": " Have you been in Japan a long time or",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_40",
+      "end": 73.74799999999999,
+      "speaker": "A",
+      "start": 72.148,
+      "text": " I was in Japan four",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_41",
+      "end": 74.24799999999999,
+      "speaker": "B",
+      "start": 73.74799999999999,
+      "text": " Oh before.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_42",
+      "end": 74.798,
+      "speaker": "A",
+      "start": 74.24799999999999,
+      "text": " years ago,",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_43",
+      "end": 74.948,
+      "speaker": "B",
+      "start": 74.798,
+      "text": " Ah.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_44",
+      "end": 76.398,
+      "speaker": "A",
+      "start": 74.948,
+      "text": " I was here for two years.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_45",
+      "end": 76.948,
+      "speaker": "B",
+      "start": 76.698,
+      "text": " Okay.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_46",
+      "end": 79.098,
+      "speaker": "A",
+      "start": 77.198,
+      "text": " I've been wor trying to come back since",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_47",
+      "end": 79.448,
+      "speaker": "B",
+      "start": 79.098,
+      "text": " Ah.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_48",
+      "end": 79.99799999999999,
+      "speaker": "A",
+      "start": 79.448,
+      "text": " I left.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_49",
+      "end": 83.698,
+      "speaker": "B",
+      "start": 79.99799999999999,
+      "text": " Yeah. I find Japan very very very nice.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_50",
+      "end": 86.74799999999999,
+      "speaker": "B",
+      "start": 84.448,
+      "text": " Uh the environment is very nice.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_51",
+      "end": 88.948,
+      "speaker": "A",
+      "start": 86.898,
+      "text": " You I mean this is quite a small city,",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_52",
+      "end": 89.148,
+      "speaker": "B",
+      "start": 88.948,
+      "text": " Yeah.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_53",
+      "end": 90.048,
+      "speaker": "A",
+      "start": 89.148,
+      "text": " you like this rule?",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_54",
+      "end": 98.24799999999999,
+      "speaker": "B",
+      "start": 90.048,
+      "text": " Um I lived in Seoul for about three and a half, four years and it's nice to have a a smaller cleaner city.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_55",
+      "end": 102.766,
+      "speaker": "B",
+      "start": 98.516,
+      "text": " City that's a little more laid-back not so rush rush",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_56",
+      "end": 108.266,
+      "speaker": "A",
+      "start": 106.91600000000001,
+      "text": " So tell me about your day.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_57",
+      "end": 109.016,
+      "speaker": "A",
+      "start": 108.316,
+      "text": " What do you do in a day?",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_58",
+      "end": 123.494,
+      "speaker": "B",
+      "start": 110.644,
+      "text": " Generally uh pretty standard you know come up to campus uh in the morning, study, have class and then um read a little bit, go to the library and then go back home and go off to work in Oita.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_59",
+      "end": 124.54400000000001,
+      "speaker": "A",
+      "start": 123.944,
+      "text": " You work?",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_60",
+      "end": 128.294,
+      "speaker": "B",
+      "start": 124.54400000000001,
+      "text": " M yeah, just in Oita for uh one or two days a week.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_61",
+      "end": 129.094,
+      "speaker": "A",
+      "start": 128.69400000000002,
+      "text": " Okay.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_62",
+      "end": 129.94400000000002,
+      "speaker": "B",
+      "start": 129.594,
+      "text": " Yeah.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_63",
+      "end": 130.994,
+      "speaker": "A",
+      "start": 129.94400000000002,
+      "text": " Oh that sounds like a nice schedule.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_64",
+      "end": 133.594,
+      "speaker": "B",
+      "start": 130.994,
+      "text": " Yeah, how about you? You're here for how long a day?",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_65",
+      "end": 137.844,
+      "speaker": "A",
+      "start": 133.994,
+      "text": " Oh, I get the first bus up in the morning. It gets me here about eight o'clock.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_66",
+      "end": 138.166,
+      "speaker": "A",
+      "start": 137.716,
+      "text": " Clock.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_67",
+      "end": 144.116,
+      "speaker": "A",
+      "start": 138.966,
+      "text": " Um I have three classes in a day, so it's only what four and a half hours of teaching.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_68",
+      "end": 144.416,
+      "speaker": "B",
+      "start": 144.116,
+      "text": " Mm-hmm.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_69",
+      "end": 150.416,
+      "speaker": "A",
+      "start": 144.416,
+      "text": " The rest of the time is preparing the lessons, marking the homework, surfing the internet,",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_70",
+      "end": 150.966,
+      "speaker": "B",
+      "start": 150.716,
+      "text": " Ah.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_71",
+      "end": 152.51600000000002,
+      "speaker": "A",
+      "start": 150.966,
+      "text": " using the library as well.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_72",
+      "end": 152.816,
+      "speaker": "B",
+      "start": 152.616,
+      "text": " Ah.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_73",
+      "end": 155.51600000000002,
+      "speaker": "A",
+      "start": 153.716,
+      "text": " And then I head home about six o'clock.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_74",
+      "end": 158.966,
+      "speaker": "B",
+      "start": 155.76600000000002,
+      "text": " Oh. Doesn't sound yeah, a little busier, but",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_75",
+      "end": 162.916,
+      "speaker": "A",
+      "start": 160.366,
+      "text": " It's quite a relaxing schedule.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_76",
+      "end": 163.366,
+      "speaker": "B",
+      "start": 163.166,
+      "text": " Mm-hmm.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_77",
+      "end": 163.716,
+      "speaker": "B",
+      "start": 163.616,
+      "text": " Mm-hmm.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_78",
+      "end": 164.602,
+      "speaker": "B",
+      "start": 164.052,
+      "text": " Oh, that sounds",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_79",
+      "end": 164.652,
+      "speaker": "A",
+      "start": 164.602,
+      "text": " Not",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_80",
+      "end": 164.852,
+      "speaker": "B",
+      "start": 164.652,
+      "text": " all right.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_81",
+      "end": 165.402,
+      "speaker": "A",
+      "start": 164.852,
+      "text": " too intense.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_82",
+      "end": 173.552,
+      "speaker": "A",
+      "start": 169.552,
+      "text": " And getting home at six or seven, I've still got time for a swim or to cook something in the evening.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_83",
+      "end": 175.602,
+      "speaker": "B",
+      "start": 173.552,
+      "text": " Ah, do you go to the the club down there or",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_84",
+      "end": 177.552,
+      "speaker": "A",
+      "start": 176.352,
+      "text": " The public swimming pool,",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_85",
+      "end": 177.652,
+      "speaker": "B",
+      "start": 177.552,
+      "text": " Public",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_86",
+      "end": 177.902,
+      "speaker": "A",
+      "start": 177.652,
+      "text": " next to",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_87",
+      "end": 178.152,
+      "speaker": "B",
+      "start": 177.902,
+      "text": " swimming pool.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_88",
+      "end": 179.00199999999998,
+      "speaker": "A",
+      "start": 178.152,
+      "text": " the park.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_89",
+      "end": 180.10199999999998,
+      "speaker": "B",
+      "start": 179.452,
+      "text": " Ah, okay.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_90",
+      "end": 181.452,
+      "speaker": "A",
+      "start": 181.052,
+      "text": " Have you been there?",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_91",
+      "end": 184.702,
+      "speaker": "B",
+      "start": 181.452,
+      "text": " No, I haven't, but I've I've I've walked by that.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_92",
+      "end": 185.552,
+      "speaker": "A",
+      "start": 184.702,
+      "text": " Do you live in that part of Beirut?",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_93",
+      "end": 186.952,
+      "speaker": "B",
+      "start": 185.552,
+      "text": " I live in Kamagawa.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_94",
+      "end": 188.10199999999998,
+      "speaker": "A",
+      "start": 187.552,
+      "text": " Right, uh-huh.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_95",
+      "end": 188.452,
+      "speaker": "B",
+      "start": 188.10199999999998,
+      "text": " So",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_96",
+      "end": 188.952,
+      "speaker": "A",
+      "start": 188.452,
+      "text": " So it's a quite bit of",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_97",
+      "end": 189.00199999999998,
+      "speaker": "B",
+      "start": 188.952,
+      "text": " far",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_98",
+      "end": 189.25199999999998,
+      "speaker": "A",
+      "start": 189.00199999999998,
+      "text": " a long away way.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_99",
+      "end": 189.952,
+      "speaker": "B",
+      "start": 189.25199999999998,
+      "text": " from everywhere else.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_100",
+      "end": 190.302,
+      "speaker": "A",
+      "start": 189.952,
+      "text": " Yeah.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_101",
+      "end": 192.75199999999998,
+      "speaker": "B",
+      "start": 190.302,
+      "text": " But it's nice and very very quiet.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_102",
+      "end": 194.20000000000002,
+      "speaker": "B",
+      "start": 193.45000000000002,
+      "text": " So as",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_103",
+      "end": 195.70000000000002,
+      "speaker": "A",
+      "start": 194.20000000000002,
+      "text": " That seems like that's important to you.",
+      "type": "transcript.text.segment"
+    },
+    {
+      "id": "seg_104",
+      "end": 198.8,
+      "speaker": "B",
+      "start": 196.0,
+      "text": " I get older it becomes more important.",
+      "type": "transcript.text.segment"
+    }
+  ],
+  "estimated_cost": {
+    "unit": "0.0749460000",
+    "irt": 19512.19,
+    "exchange_rate": 260350
+  },
+  "service_tier": "default"
+}

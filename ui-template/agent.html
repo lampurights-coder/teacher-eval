@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ASR Parser — Agent</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="page">
+    <header class="header">
+      <div class="header-inner">
+        <a class="brand" href="index.html">
+          <div class="logo" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M12 3v10" stroke="#07120A" stroke-width="2.2" stroke-linecap="round"/>
+              <rect x="9" y="5" width="6" height="10" rx="3" stroke="#07120A" stroke-width="2"/>
+              <path d="M6 11a6 6 0 0 0 12 0M12 17v3" stroke="#07120A" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="brand-stack">
+            <span class="brand-name">asrparser</span>
+            <span class="brand-by">BY EMBED</span>
+          </div>
+        </a>
+
+        <nav class="nav">
+          <a href="index.html">Transcribe</a>
+          <a href="parser.html">Parser</a>
+          <a href="agent.html" class="active">Agent</a>
+          <a href="history.html">History</a>
+        </nav>
+
+        <button class="login-btn" type="button">Log in</button>
+      </div>
+    </header>
+
+    <div class="shell">
+      <section class="page-hero">
+        <h1>Teacher <span style="color:var(--neon)">evaluation</span>.</h1>
+        <p id="eval-lead">Choose a class. A saved review opens at once. A new one is analyzed once and kept.</p>
+      </section>
+      <div class="library agent-class">
+        <div class="library-select class-select">
+          <button class="class-toggle" id="agent-toggle" type="button" aria-expanded="false">
+            <span class="class-mark" aria-hidden="true"></span>
+            <span class="class-copy">
+              <strong id="agent-name">Choose a class</strong>
+              <small id="agent-sub">Open the list</small>
+            </span>
+            <span class="class-status is-new" id="agent-status">Select</span>
+          </button>
+        </div>
+      </div>
+      <div class="library-popup" id="agent-popup" hidden>
+        <div class="library-sheet" role="dialog" aria-label="Saved classes">
+          <input id="agent-search" type="search" placeholder="Search classes" />
+          <div class="voice-picker" id="agent-list"></div>
+        </div>
+      </div>
+      <div id="eval-root" class="empty-state">Select class</div>
+    </div>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

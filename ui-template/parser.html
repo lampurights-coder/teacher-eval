@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ASR Parser — Speaker View</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="page">
+    <header class="header">
+      <div class="header-inner">
+        <a class="brand" href="index.html">
+          <div class="logo" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M12 3v10" stroke="#07120A" stroke-width="2.2" stroke-linecap="round"/>
+              <rect x="9" y="5" width="6" height="10" rx="3" stroke="#07120A" stroke-width="2"/>
+              <path d="M6 11a6 6 0 0 0 12 0M12 17v3" stroke="#07120A" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="brand-stack">
+            <span class="brand-name">asrparser</span>
+            <span class="brand-by">BY EMBED</span>
+          </div>
+        </a>
+
+        <nav class="nav">
+          <a href="index.html">Transcribe</a>
+          <a href="parser.html" class="active">Parser</a>
+          <a href="agent.html">Agent</a>
+          <a href="history.html">History</a>
+        </nav>
+
+        <button class="login-btn" type="button">Log in</button>
+      </div>
+    </header>
+
+    <div class="shell">
+      <section class="page-hero">
+        <h1>Parse by <span style="color:var(--neon)">speaker</span>.</h1>
+        <p>
+          Edit text, review confidence per speaker, select sections, then send them to a Vibe Voice agent.
+        </p>
+      </section>
+
+      <div class="library">
+        <div class="library-select">
+          <button class="library-toggle" id="library-toggle" type="button" aria-expanded="false">
+            <span id="voice-meta">Choose a recording</span>
+          </button>
+        </div>
+        <a class="btn-neon sm talk-btn" id="talk-agent" href="agent.html">Talk with agent</a>
+      </div>
+
+      <div class="library-popup" id="library-popup" hidden>
+        <div class="library-sheet" role="dialog" aria-label="Saved recordings">
+          <input id="library-search" type="search" placeholder="Search recordings" />
+          <div class="voice-picker" id="voice-picker"></div>
+        </div>
+      </div>
+
+      <div class="filters" id="filters">
+        <button class="filter-pill active" type="button" data-speaker="all">All speakers</button>
+        <button class="filter-pill" type="button" data-speaker="A">
+          <span class="speaker-chip sp-a"></span> Speaker A
+        </button>
+        <button class="filter-pill" type="button" data-speaker="B">
+          <span class="speaker-chip sp-b"></span> Speaker B
+        </button>
+        <button class="filter-pill" type="button">Low confidence</button>
+      </div>
+
+      <div class="parser-layout">
+        <section class="panel">
+          <div class="panel-head">
+            <h2 class="panel-title">Conversation</h2>
+            <span class="badge" id="conv-badge" hidden></span>
+          </div>
+          <div class="transcript speaker-thread" id="thread"></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head">
+            <h2 class="panel-title">Speaker segments</h2>
+            <span class="badge" id="sel-count">0 selected</span>
+          </div>
+          <p class="select-hint">Select sections to discuss with the agent.</p>
+          <div class="seg-list" id="seg-list"></div>
+          <div class="actions" style="margin-top:16px">
+            <a class="btn-neon sm" href="agent.html" id="send-agent">Send selection to Agent</a>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

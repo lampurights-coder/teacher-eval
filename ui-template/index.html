@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ASR Parser — Transcribe</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="page">
+    <header class="header">
+      <div class="header-inner">
+        <a class="brand" href="index.html">
+          <div class="logo" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M12 3v10" stroke="#07120A" stroke-width="2.2" stroke-linecap="round"/>
+              <rect x="9" y="5" width="6" height="10" rx="3" stroke="#07120A" stroke-width="2"/>
+              <path d="M6 11a6 6 0 0 0 12 0M12 17v3" stroke="#07120A" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="brand-stack">
+            <span class="brand-name">asrparser</span>
+            <span class="brand-by">BY EMBED</span>
+          </div>
+        </a>
+
+        <div class="annotation" aria-hidden="true">
+          <svg class="annotation-arrow" viewBox="0 0 40 18" fill="none">
+            <path d="M38 10C28 10 18 4 8 8" stroke="#9BFA64" stroke-width="2" stroke-linecap="round"/>
+            <path d="M10 4L6 9l6 2" stroke="#9BFA64" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span class="annotation-text">+ Vibe Voice</span>
+        </div>
+
+        <nav class="nav">
+          <a href="index.html" class="active">Transcribe</a>
+          <a href="parser.html">Parser</a>
+          <a href="agent.html">Agent</a>
+          <a href="history.html">History</a>
+        </nav>
+
+        <button class="login-btn" type="button">Log in</button>
+      </div>
+    </header>
+
+    <div class="shell">
+      <section class="hero">
+        <h1 class="hero-title">
+          Transcribe <span class="accent">Any</span> Speech Audio.
+        </h1>
+        <p class="hero-subtitle">
+          Local ASR → speaker parser → Vibe Voice agent.
+          Upload a recording, diarize speakers, then talk with Teacher or Supervisor agents about any section.
+        </p>
+      </section>
+
+      <section class="drop-stage" id="drop-stage" aria-label="Drop audio">
+        <div class="drop-well" id="dropzone">
+          <input id="file" class="hidden-file" type="file" accept="audio/*,video/*,.mp3,.wav,.m4a,.webm,.ogg,.flac,.aac" />
+          <div class="orbit" aria-hidden="true">
+            <i></i><i></i><i></i>
+          </div>
+          <div class="waveform" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span>
+          </div>
+          <p class="drop-kicker" id="drop-kicker">Drop the recording</p>
+          <p class="file-name" id="file-name">MP3 · WAV · M4A · WEBM</p>
+          <p class="drop-hint" id="drop-hint">Let go of the file. The voice is stored and the transcript JSON is written while this stays on screen.</p>
+          <div class="progress-track" id="progress-track" hidden>
+            <div class="progress-fill busy" id="progress"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="features" aria-label="Workflow">
+        <article class="feature-card">
+          <div class="icon-box">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 3v10M9 5a3 3 0 0 1 6 0v8a3 3 0 0 1-6 0V5zM6 11a6 6 0 0 0 12 0M12 17v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </div>
+          <div>
+            <h2 class="feature-title">1 · Transcribe</h2>
+            <p class="feature-body">
+              Convert speech to text with timestamps. Diarization tags Speaker A, B, and more.
+            </p>
+          </div>
+        </article>
+
+        <article class="feature-card">
+          <div class="icon-box">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h10M4 17h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="18" cy="12" r="3" stroke="currentColor" stroke-width="1.8"/></svg>
+          </div>
+          <div>
+            <h2 class="feature-title">2 · Speaker parser</h2>
+            <p class="feature-body">
+              Review by speaker, edit segments, export JSON / SRT — then pick sections for the agent.
+            </p>
+            <a class="feature-link" href="parser.html">OPEN PARSER →</a>
+          </div>
+        </article>
+
+        <article class="feature-card">
+          <div class="icon-box">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 4a4 4 0 1 1 0 8 4 4 0 0 1 0-8zM4 20c1.5-3 4-5 8-5s6.5 2 8 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </div>
+          <div>
+            <h2 class="feature-title">3 · Vibe Voice agent</h2>
+            <p class="feature-body">
+              Talk with a Teacher or Supervisor agent about selected sections — summary, coaching, oversight.
+            </p>
+            <a class="feature-link" href="agent.html">OPEN AGENT →</a>
+          </div>
+        </article>
+      </section>
+    </div>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
