@@ -63,13 +63,16 @@ aval_ai=your-avalai-key
 | Variable | Default |
 | --- | --- |
 | `AVALAI_BASE` | `https://api.avalai.ir/v1` |
+| `ADMIN_USERNAME` / `ADMIN_PASSWORD` | _(optional — unused for first-run; account is created in the UI and saved in SQLite)_ |
 | `MINIO_ENDPOINT` | `127.0.0.1:9000` |
 | `MINIO_ACCESS_KEY` | `minioadmin` |
 | `MINIO_SECRET_KEY` | `minioadmin` |
 | `MINIO_BUCKET` | `class-voices` |
 | `MINIO_SECURE` | `false` |
 
-Transcription uses `gpt-4o-transcribe-diarize` with `diarized_json` and automatic chunking. The teacher review uses `gpt-4o-mini`.
+The app starts locked. First visit: pick any username and password (saved in SQLite), then set base URL, transcribe model, agent model, and token. Later visits: log in with that same account. The floating settings window can change AvalAI values anytime after login. Session APIs require the admin cookie.
+
+Transcription defaults to `gpt-4o-transcribe-diarize` with `diarized_json` and automatic chunking. The teacher review defaults to `gpt-4o-mini`.
 
 ## Run
 
@@ -81,15 +84,31 @@ Open http://127.0.0.1:8765
 
 Use that address. Opening the HTML files directly makes the API calls miss the server.
 
+## Android app
+
+A Capacitor shell lives in [`mobile/`](mobile/). It reuses `ui-template` and talks to this FastAPI server.
+
+```bash
+cd mobile
+npm install
+npm run android
+```
+
+For a real phone, run the API with `--host 0.0.0.0` and set **App server** in Settings to `http://YOUR_PC_IP:8765`. Details: [`mobile/README.md`](mobile/README.md).
+
 ## API
 
 | Method | Path | Purpose |
 | --- | --- | --- |
 | `GET` | `/api/health` | Server and MinIO status |
-| `GET` | `/api/sessions` | Parsed classes, newest first |
-| `POST` | `/api/sessions` | Upload audio and start transcription |
-| `GET` | `/api/sessions/{id}` | One class, including its chunks |
-| `GET` | `/api/sessions/{id}/audio` | Audio, with HTTP range requests so a chunk can be seeked |
-| `GET` | `/api/sessions/{id}/evaluation` | Saved review, or a new review when `{id}/evaluation.json` is missing |
+| `POST` | `/api/admin/login` | Check `ADMIN_PASSWORD`, set httpOnly signed cookie |
+| `POST` | `/api/admin/logout` | Clear the admin cookie |
+| `GET` | `/api/admin/settings` | AvalAI base URL, models, token hint (admin cookie) |
+| `PUT` | `/api/admin/settings` | Update those settings (admin cookie) |
+| `GET` | `/api/sessions` | Parsed classes, newest first (admin cookie) |
+| `POST` | `/api/sessions` | Upload audio and start transcription (admin cookie) |
+| `GET` | `/api/sessions/{id}` | One class, including its chunks (admin cookie) |
+| `GET` | `/api/sessions/{id}/audio` | Audio, with HTTP range requests so a chunk can be seeked (admin cookie) |
+| `GET` | `/api/sessions/{id}/evaluation` | Saved review, or a new review when `{id}/evaluation.json` is missing (admin cookie) |
 
-`GET /api/sessions/{id}/evaluation` is the only route that calls the chat model, and only when that class folder has no review yet.
+Session routes require the admin cookie. `GET /api/sessions/{id}/evaluation` is the only route that calls the chat model, and only when that class folder has no review yet.

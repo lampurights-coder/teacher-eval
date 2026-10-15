@@ -1,18 +1,23 @@
 """Save a dropped recording in MinIO and store its diarized transcript JSON."""
 
+import hashlib
+import hmac
 import json
 import os
 import sqlite3
+import time
 import uuid
 from datetime import datetime, timezone
 from pathlib import Path
+from typing import Optional
 
 import httpx
 from fastapi import BackgroundTasks, FastAPI, File, HTTPException, Request, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import Response
+from fastapi.responses import JSONResponse, Response
 from fastapi.staticfiles import StaticFiles
 from minio import Minio
+from pydantic import BaseModel, Field
 
 ROOT = Path(__file__).resolve().parent.parent
 UI = ROOT / "ui-template"
@@ -20,6 +25,12 @@ DATA = ROOT / "data"
 JSON_DIR = DATA / "transcripts"
 DB_PATH = DATA / "sessions.db"
 ENV_PATH = ROOT / ".env"
+
+DEFAULT_BASE = "https://api.avalai.ir/v1"
+DEFAULT_ASR = "gpt-4o-transcribe-diarize"
+DEFAULT_LLM = "gpt-4o-mini"
+ADMIN_COOKIE = "asr_admin"
+ADMIN_COOKIE_MAX_AGE = 60 * 60 * 24 * 14
 
 DATA.mkdir(exist_ok=True)
 JSON_DIR.mkdir(exist_ok=True)
@@ -38,8 +49,13 @@ def load_env():
 
 load_env()
 
-AVAL_BASE = os.environ.get("AVALAI_BASE", "https://api.avalai.ir/v1").rstrip("/")
+AVAL_BASE = os.environ.get("AVALAI_BASE", DEFAULT_BASE).rstrip("/")
 AVAL_KEY = os.environ.get("AVALAI_API_KEY") or os.environ.get("aval_ai", "")
+ADMIN_USERNAME = os.environ.get("ADMIN_USERNAME", "admin")
+ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD", "")
+ADMIN_SECRET = os.environ.get("ADMIN_SECRET") or hashlib.sha256(
+    f"asrparser|{ADMIN_USERNAME}|{ADMIN_PASSWORD}|{AVAL_KEY}".encode()
+).hexdigest()
 MINIO_ENDPOINT = os.environ.get("MINIO_ENDPOINT", "127.0.0.1:9000")
 MINIO_ACCESS = os.environ.get("MINIO_ACCESS_KEY", "minioadmin")
 MINIO_SECRET = os.environ.get("MINIO_SECRET_KEY", "minioadmin")
@@ -49,7 +65,15 @@ MINIO_SECURE = os.environ.get("MINIO_SECURE", "false").lower() == "true"
 app = FastAPI(title="asrparser")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origin_regex=(
+        r"https?://(localhost|127\.0\.0\.1)(:\d+)?"
+        r"|capacitor://localhost"
+        r"|ionic://localhost"
+        r"|https?://192\.168\.\d{1,3}\.\d{1,3}(:\d+)?"
+        r"|https?://10\.\d{1,3}\.\d{1,3}\.\d{1,3}(:\d+)?"
+        r"|null"
+    ),
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -95,9 +119,150 @@ def init_db():
             conn.execute("ALTER TABLE sessions ADD COLUMN json_key TEXT")
         if "evaluation_key" not in columns:
             conn.execute("ALTER TABLE sessions ADD COLUMN evaluation_key TEXT")
+        conn.execute(
+            """
+            CREATE TABLE IF NOT EXISTS settings (
+                id INTEGER PRIMARY KEY CHECK (id = 1),
+                base_url TEXT NOT NULL,
+                asr_model TEXT NOT NULL,
+                llm_model TEXT NOT NULL,
+                api_token TEXT NOT NULL
+            )
+            """
+        )
+        columns = {row[1] for row in conn.execute("PRAGMA table_info(settings)")}
+        if "admin_username" not in columns:
+            conn.execute("ALTER TABLE settings ADD COLUMN admin_username TEXT")
+        if "admin_password_hash" not in columns:
+            conn.execute("ALTER TABLE settings ADD COLUMN admin_password_hash TEXT")
+        row = conn.execute("SELECT id FROM settings WHERE id = 1").fetchone()
+        if not row:
+            conn.execute(
+                """
+                INSERT INTO settings (
+                    id, base_url, asr_model, llm_model, api_token,
+                    admin_username, admin_password_hash
+                )
+                VALUES (1, ?, ?, ?, ?, NULL, NULL)
+                """,
+                (AVAL_BASE, DEFAULT_ASR, DEFAULT_LLM, AVAL_KEY),
+            )
+
+
+def hash_password(username: str, password: str) -> str:
+    raw = f"{ADMIN_SECRET}|{(username or '').strip().lower()}|{password or ''}"
+    return hashlib.sha256(raw.encode()).hexdigest()
 
 
 init_db()
+
+
+def read_admin_auth():
+    with connect() as conn:
+        row = conn.execute(
+            "SELECT admin_username, admin_password_hash FROM settings WHERE id = 1"
+        ).fetchone()
+    if not row:
+        return {"username": "", "password_hash": ""}
+    return {
+        "username": (row["admin_username"] or "").strip(),
+        "password_hash": (row["admin_password_hash"] or "").strip(),
+    }
+
+
+def save_admin_auth(username: str, password: str):
+    user = username.strip()
+    digest = hash_password(user, password)
+    with connect() as conn:
+        conn.execute(
+            """
+            UPDATE settings
+            SET admin_username = ?, admin_password_hash = ?
+            WHERE id = 1
+            """,
+            (user, digest),
+        )
+
+
+def sign_admin_token(payload: str) -> str:
+    stamp = str(int(time.time()))
+    body = f"{payload}.{stamp}"
+    digest = hmac.new(ADMIN_SECRET.encode(), body.encode(), hashlib.sha256).hexdigest()
+    return f"{body}.{digest}"
+
+
+def verify_admin_token(token: str) -> bool:
+    try:
+        payload, stamp, digest = token.rsplit(".", 2)
+    except ValueError:
+        return False
+    body = f"{payload}.{stamp}"
+    expected = hmac.new(ADMIN_SECRET.encode(), body.encode(), hashlib.sha256).hexdigest()
+    if not hmac.compare_digest(digest, expected):
+        return False
+    try:
+        issued = int(stamp)
+    except ValueError:
+        return False
+    if abs(time.time() - issued) > ADMIN_COOKIE_MAX_AGE:
+        return False
+    return payload == "ok"
+
+
+def require_admin(request: Request):
+    token = request.cookies.get(ADMIN_COOKIE)
+    if not token or not verify_admin_token(token):
+        raise HTTPException(401, "Admin login required")
+
+
+def read_settings_row():
+    with connect() as conn:
+        row = conn.execute("SELECT * FROM settings WHERE id = 1").fetchone()
+    if not row:
+        return {
+            "base_url": AVAL_BASE,
+            "asr_model": DEFAULT_ASR,
+            "llm_model": DEFAULT_LLM,
+            "api_token": AVAL_KEY,
+        }
+    return {
+        "base_url": row["base_url"],
+        "asr_model": row["asr_model"],
+        "llm_model": row["llm_model"],
+        "api_token": row["api_token"] or "",
+    }
+
+
+def token_hint(token: str) -> str:
+    raw = (token or "").strip()
+    if not raw:
+        return ""
+    if len(raw) <= 4:
+        return "••••"
+    return f"••••{raw[-4:]}"
+
+
+def public_settings(row):
+    token = row.get("api_token") or ""
+    return {
+        "base_url": row["base_url"],
+        "asr_model": row["asr_model"],
+        "llm_model": row["llm_model"],
+        "has_token": bool(token.strip()),
+        "token_hint": token_hint(token),
+    }
+
+
+class LoginBody(BaseModel):
+    username: str = ""
+    password: str = ""
+
+
+class SettingsBody(BaseModel):
+    base_url: str = Field(default=DEFAULT_BASE)
+    asr_model: str = Field(default=DEFAULT_ASR)
+    llm_model: str = Field(default=DEFAULT_LLM)
+    api_token: Optional[str] = None
 
 
 def minio_client():
@@ -145,15 +310,19 @@ def row_to_session(row):
 
 
 def transcribe(path: Path, filename: str, content_type: str):
-    if not AVAL_KEY:
-        raise RuntimeError("AvalAI API key is missing from .env")
+    settings = read_settings_row()
+    token = (settings.get("api_token") or "").strip()
+    base = (settings.get("base_url") or DEFAULT_BASE).rstrip("/")
+    model = (settings.get("asr_model") or DEFAULT_ASR).strip() or DEFAULT_ASR
+    if not token:
+        raise RuntimeError("AvalAI API key is missing. Set it in admin settings or .env")
     with path.open("rb") as handle:
         response = httpx.post(
-            f"{AVAL_BASE}/audio/transcriptions",
-            headers={"Authorization": f"Bearer {AVAL_KEY}"},
+            f"{base}/audio/transcriptions",
+            headers={"Authorization": f"Bearer {token}"},
             files={"file": (filename, handle, content_type or "application/octet-stream")},
             data={
-                "model": "gpt-4o-transcribe-diarize",
+                "model": model,
                 "response_format": "diarized_json",
                 "chunking_strategy": "auto",
             },
@@ -227,8 +396,114 @@ def health():
     return {"ok": True, "storage": storage}
 
 
+@app.get("/api/admin/status")
+def admin_status():
+    auth = read_admin_auth()
+    ready = bool(auth["username"] and auth["password_hash"])
+    return {"setup_done": ready}
+
+
+@app.post("/api/admin/login")
+def admin_login(body: LoginBody):
+    username = (body.username or "").strip()
+    password = body.password or ""
+    if not username or not password:
+        raise HTTPException(400, "Enter a username and password")
+    auth = read_admin_auth()
+    created = False
+    if not auth["username"] or not auth["password_hash"]:
+        save_admin_auth(username, password)
+        created = True
+        saved_user = username
+    else:
+        user_ok = hmac.compare_digest(username.lower(), auth["username"].lower())
+        pass_ok = hmac.compare_digest(hash_password(auth["username"], password), auth["password_hash"])
+        if not (user_ok and pass_ok):
+            raise HTTPException(401, "Wrong username or password")
+        saved_user = auth["username"]
+    response = JSONResponse({"ok": True, "created": created, "username": saved_user})
+    response.set_cookie(
+        key=ADMIN_COOKIE,
+        value=sign_admin_token("ok"),
+        httponly=True,
+        samesite="lax",
+        max_age=ADMIN_COOKIE_MAX_AGE,
+        path="/",
+    )
+    return response
+
+
+@app.post("/api/admin/logout")
+def admin_logout():
+    response = JSONResponse({"ok": True})
+    response.delete_cookie(ADMIN_COOKIE, path="/")
+    return response
+
+
+@app.get("/api/admin/settings")
+def get_admin_settings(request: Request):
+    require_admin(request)
+    return public_settings(read_settings_row())
+
+
+@app.put("/api/admin/settings")
+def put_admin_settings(request: Request, body: SettingsBody):
+    require_admin(request)
+    current = read_settings_row()
+    base_url = (body.base_url or DEFAULT_BASE).strip().rstrip("/") or DEFAULT_BASE
+    asr_model = (body.asr_model or DEFAULT_ASR).strip() or DEFAULT_ASR
+    llm_model = (body.llm_model or DEFAULT_LLM).strip() or DEFAULT_LLM
+    if body.api_token is None or not str(body.api_token).strip():
+        api_token = current.get("api_token") or ""
+    else:
+        api_token = str(body.api_token).strip()
+    with connect() as conn:
+        conn.execute(
+            """
+            UPDATE settings
+            SET base_url = ?, asr_model = ?, llm_model = ?, api_token = ?
+            WHERE id = 1
+            """,
+            (base_url, asr_model, llm_model, api_token),
+        )
+    return public_settings(read_settings_row())
+
+
+@app.get("/api/admin/models")
+def list_avalai_models(request: Request, base_url: Optional[str] = None, api_token: Optional[str] = None):
+    """List model ids from AvalAI (OpenAI-compatible /models), same catalog as the platform UI."""
+    require_admin(request)
+    current = read_settings_row()
+    token = (api_token or "").strip() or (current.get("api_token") or "").strip()
+    base = ((base_url or "").strip() or current.get("base_url") or DEFAULT_BASE).rstrip("/")
+    if not token:
+        raise HTTPException(400, "Save an AvalAI token first")
+    try:
+        response = httpx.get(
+            f"{base}/models",
+            headers={"Authorization": f"Bearer {token}"},
+            timeout=30,
+        )
+    except Exception as exc:
+        raise HTTPException(502, f"Could not reach AvalAI models: {exc}") from exc
+    if response.status_code >= 400:
+        raise HTTPException(response.status_code, response.text[:400] or "AvalAI models request failed")
+    payload = response.json()
+    rows = payload.get("data") if isinstance(payload, dict) else payload
+    models = []
+    if isinstance(rows, list):
+        for item in rows:
+            if isinstance(item, dict) and item.get("id"):
+                models.append(str(item["id"]))
+            elif isinstance(item, str):
+                models.append(item)
+    models = sorted(set(models), key=str.lower)
+    return {"models": models, "base_url": base}
+
+
 @app.get("/api/sessions")
-def list_sessions():
+def list_sessions(request: Request):
+    require_admin(request)
     with connect() as conn:
         rows = conn.execute(
             "SELECT * FROM sessions WHERE status = 'parsed' ORDER BY created_at DESC"
@@ -238,6 +513,7 @@ def list_sessions():
 
 @app.get("/api/sessions/{session_id}/audio")
 def session_audio(session_id: str, request: Request):
+    require_admin(request)
     with connect() as conn:
         row = conn.execute("SELECT * FROM sessions WHERE id = ?", (session_id,)).fetchone()
     if not row or not row["object_key"]:
@@ -295,17 +571,21 @@ def extract_json(text):
 
 
 def chat_complete(messages):
-    if not AVAL_KEY:
-        raise RuntimeError("AvalAI API key is missing from .env")
+    settings = read_settings_row()
+    token = (settings.get("api_token") or "").strip()
+    base = (settings.get("base_url") or DEFAULT_BASE).rstrip("/")
+    model = (settings.get("llm_model") or DEFAULT_LLM).strip() or DEFAULT_LLM
+    if not token:
+        raise RuntimeError("AvalAI API key is missing. Set it in admin settings or .env")
     response = httpx.post(
-        f"{AVAL_BASE}/chat/completions",
-        headers={"Authorization": f"Bearer {AVAL_KEY}", "Content-Type": "application/json"},
-        json={"model": "gpt-4o-mini", "temperature": 0.2, "messages": messages},
+        f"{base}/chat/completions",
+        headers={"Authorization": f"Bearer {token}", "Content-Type": "application/json"},
+        json={"model": model, "temperature": 0.2, "messages": messages},
         timeout=120,
     )
     if response.status_code >= 400:
         raise RuntimeError(response.text[:800])
-    return response.json()["choices"][0]["message"]["content"]
+    return response.json()["choices"][0]["message"]["content"], model
 
 
 def normalize_phrase(value):
@@ -359,7 +639,7 @@ def build_evaluation(session_id, filename, segments):
         f"[{index:03d} {segment['start']:.1f}-{segment['end']:.1f}] {segment['speaker']}: {segment['text']}"
         for index, segment in enumerate(segments)
     )
-    content = chat_complete(
+    content, model = chat_complete(
         [
             {
                 "role": "system",
@@ -413,7 +693,7 @@ def build_evaluation(session_id, filename, segments):
         good = fill_teacher_points("good", teacher_person["speaker"], segments) or good
     return {
         "version": EVAL_VERSION,
-        "model": "gpt-4o-mini",
+        "model": model,
         "id": session_id,
         "filename": filename,
         "teacher": teacher_person,
@@ -431,7 +711,7 @@ def fill_teacher_points(side, speaker, segments):
         return []
     focus = "chunks where the teacher helped the class" if side == "good" else "chunks with a grammar slip, unclear speech, or a weak teaching move"
     numbered = "\n".join(f"[{segment['start']:.1f}-{segment['end']:.1f}] {segment['text']}" for segment in segments if segment.get("speaker") == speaker and segment.get("text"))
-    content = chat_complete(
+    content, _model = chat_complete(
         [
             {
                 "role": "system",
@@ -472,7 +752,8 @@ def save_evaluation(session_id, document):
 
 
 @app.get("/api/sessions/{session_id}/evaluation")
-def session_evaluation(session_id: str):
+def session_evaluation(session_id: str, request: Request):
+    require_admin(request)
     with connect() as conn:
         row = conn.execute("SELECT * FROM sessions WHERE id = ?", (session_id,)).fetchone()
     if not row:
@@ -497,7 +778,8 @@ def session_evaluation(session_id: str):
 
 
 @app.get("/api/sessions/{session_id}")
-def get_session(session_id: str):
+def get_session(session_id: str, request: Request):
+    require_admin(request)
     with connect() as conn:
         row = conn.execute("SELECT * FROM sessions WHERE id = ?", (session_id,)).fetchone()
     if not row:
@@ -506,7 +788,8 @@ def get_session(session_id: str):
 
 
 @app.post("/api/sessions")
-async def create_session(background: BackgroundTasks, file: UploadFile = File(...)):
+async def create_session(request: Request, background: BackgroundTasks, file: UploadFile = File(...)):
+    require_admin(request)
     if not file.filename:
         raise HTTPException(400, "Drop an audio file")
     raw = await file.read()

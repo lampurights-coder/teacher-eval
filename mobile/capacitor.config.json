@@ -1,0 +1,26 @@
+{
+  "appId": "ir.embed.asrparser",
+  "appName": "asrparser",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https",
+    "cleartext": true,
+    "allowNavigation": [
+      "https://api.avalai.ir/*",
+      "https://*.avalai.ir/*"
+    ]
+  },
+  "plugins": {
+    "CapacitorHttp": {
+      "enabled": true
+    },
+    "SplashScreen": {
+      "launchAutoHide": true,
+      "backgroundColor": "#060B14"
+    },
+    "StatusBar": {
+      "style": "DARK",
+      "backgroundColor": "#060B14"
+    }
+  }
+}

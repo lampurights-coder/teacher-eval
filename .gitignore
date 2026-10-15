@@ -6,3 +6,14 @@ data/
 *.wav
 *.m4a
 *.webm
+mobile/node_modules/
+mobile/www/
+mobile/.gradle-home/
+mobile/android/.gradle/
+mobile/android/**/build/
+mobile/android/local.properties
+mobile/android/app/build/
+mobile/android/capacitor-cordova-android-plugins/build/
+*.apk.idsig
+android-studio*.tar.gz
+google-android-platform*.deb

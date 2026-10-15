@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">asrparser</string>
+    <string name="title_activity_main">asrparser</string>
+    <string name="package_name">ir.embed.asrparser</string>
+    <string name="custom_url_scheme">ir.embed.asrparser</string>
+</resources>
